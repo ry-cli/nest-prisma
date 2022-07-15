@@ -4,17 +4,18 @@ import { AppModule } from './app.module'
 import { SwaggeUtil } from './utils/swagger.util'
 // import { ResponseInterceptor } from './common/interceptor/response.interceptor'
 import { AnyExceptionFilter } from './common/filter/any-exception.filter'
-import { ServerConfig } from './config/server.config'
 import { logger } from './common/middleware/logger.middleware'
 
 async function bootstrap() {
     // 创建配置
-    const serverConfig = new ServerConfig('dev', 'v1')
+    const SEVER_ENV = process.env.SEVER_ENV
+    const API_VERSION = process.env.API_VERSION
+    const SERVER_PORT = process.env.SERVER_PORT
 
     const app = await NestFactory.create(AppModule)
 
     // 路由前缀
-    app.setGlobalPrefix('v1')
+    app.setGlobalPrefix(API_VERSION)
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
 
@@ -28,6 +29,7 @@ async function bootstrap() {
     // swagger 文档配置初始化
     SwaggeUtil.init(app)
 
-    await app.listen(serverConfig.port)
+    await app.listen(SERVER_PORT)
+    console.log(`${SEVER_ENV} sever start on: ${SERVER_PORT}`)
 }
 bootstrap()
