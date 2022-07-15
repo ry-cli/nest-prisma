@@ -6,6 +6,8 @@ import { SwaggeUtil } from './utils/swagger.util'
 import { AnyExceptionFilter } from './common/filter/any-exception.filter'
 import { logger } from './common/middleware/logger.middleware'
 
+// import { PrismaService } from './prisma/prisma.service';
+
 async function bootstrap() {
     // 创建配置
     const SEVER_ENV = process.env.SEVER_ENV
@@ -28,6 +30,11 @@ async function bootstrap() {
 
     // swagger 文档配置初始化
     SwaggeUtil.init(app)
+
+    // Prisma listens for shutdown signals and will call process.exit() before your application shutdown hooks fire.
+    // To deal with this, you would need to add a listener for Prisma beforeExit event.
+    // const prismaService = app.get(PrismaService);
+    // await prismaService.enableShutdownHooks(app);
 
     await app.listen(SERVER_PORT)
     console.log(`${SEVER_ENV} sever start on: ${SERVER_PORT}`)

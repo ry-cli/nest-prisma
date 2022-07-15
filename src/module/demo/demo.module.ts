@@ -1,3 +1,4 @@
+import { PrismaService } from './../prisma/prisma.service'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { DemoController } from './demo.controller'
 import { DemoService } from './demo.service'
@@ -5,7 +6,7 @@ import { DemoService } from './demo.service'
 
 @Module({
     controllers: [DemoController],
-    providers: [DemoService],
+    providers: [DemoService, PrismaService],
 })
 export class DemoModule implements NestModule {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
